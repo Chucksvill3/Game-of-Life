@@ -1,0 +1,82 @@
+public class GameOfLife {
+   public static boolean[][] createGeneration(boolean[][] currentGeneration) {
+    int rows = currentGeneration.length;
+    int cols = currentGeneration[0].length;
+    boolean[][] newGeneration = new boolean[rows][cols];
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            int count = 0;
+
+            // Check left
+            if (j > 0 && currentGeneration[i][j] && currentGeneration[i][j-1]) {
+                count++;
+            }
+            // Check right
+            if (j < cols-1 && currentGeneration[i][j] && currentGeneration[i][j+1]) {
+                count++;
+            }
+            // Check up
+            if (i > 0 && currentGeneration[i][j] && currentGeneration[i-1][j]) {
+                count++;
+            }
+            // Check down
+            if (i < rows-1 && currentGeneration[i][j] && currentGeneration[i+1][j]) {
+                count++;
+            }
+            // Check up-left
+            if (i > 0 && j > 0 && currentGeneration[i][j] && currentGeneration[i-1][j-1]) {
+                count++;
+            }
+            // Check up-right
+            if (i > 0 && j < cols-1 && currentGeneration[i][j] && currentGeneration[i-1][j+1]) {
+                count++;
+            }
+            // Check down-left
+            if (i < rows-1 && j > 0 && currentGeneration[i][j] && currentGeneration[i+1][j-1]) {
+                count++;
+            }
+            // Check down-right
+            if (i < rows-1 && j < cols-1 && currentGeneration[i][j] && currentGeneration[i+1][j+1]) {
+                count++;
+            }
+
+           
+            if(currentGeneration[i][j] && (count == 2 || count == 3)) {
+                newGeneration[i][j] = true;
+            } else if(!currentGeneration[i][j] && count == 3) {
+                newGeneration[i][j] = true;
+            } else {
+                newGeneration[i][j] = false;
+            }
+        }
+    }
+   
+    return newGeneration;
+}
+
+
+
+public static int[][] findLivingCellLocations(boolean[][] currentGeneration) {
+    int rows = currentGeneration.length;
+    int cols = currentGeneration[0].length;
+    List<int[]> indexCells = new ArrayList<>();
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (currentGeneration[i][j] == true) {
+                indexCells.add(new int[]{i, j});
+            }
+        }
+    }
+
+    int[][] newIndexCells = new int[indexCells.size()][2];
+    for (int i = 0; i < indexCells.size(); i++) {
+        newIndexCells[i] = indexCells.get(i);
+    }
+
+    return newIndexCells;
+}
+
+
+}
